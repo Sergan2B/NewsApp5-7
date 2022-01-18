@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,12 +37,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initOpenFragment();
+    }
+
+    private void initOpenFragment() {
         binding.fab.setOnClickListener(view1 -> openFragment());
         getParentFragmentManager().setFragmentResultListener("rk_keys", getViewLifecycleOwner(), new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 News news = (News) result.getSerializable("news");
                 Log.e("TAG", "Успешно" + news.getTitle());
+                Toast.makeText(requireContext(), news.getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
     }

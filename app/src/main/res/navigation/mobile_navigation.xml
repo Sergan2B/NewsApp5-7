@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/newsFragment"
-        android:name="kg.geektech.newsapp39.NewsFragment"
+        android:name="kg.geektech.newsapp39.ui.news.NewsFragment"
         android:label="fragment_news"
         tools:layout="@layout/fragment_news" />
     <fragment

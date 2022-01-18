@@ -26,11 +26,14 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {  //Нужно viewCreated держать в чистоте, использовать только методы
         super.onViewCreated(view, savedInstanceState);
+        initSetAvatarImage();
+    }
+
+    private void initSetAvatarImage() {
         //binding.avatarProfile.setOnClickListener(view2 ->takePhoto());
-        ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
-                imageUri -> binding.avatarProfile.setImageURI(imageUri));
+        ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(), imageUri -> binding.avatarProfile.setImageURI(imageUri));
         binding.avatarProfile.setOnClickListener(view1 -> mGetContent.launch("image/*"));
     }
 }

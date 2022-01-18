@@ -1,4 +1,4 @@
-package kg.geektech.newsapp39;
+package kg.geektech.newsapp39.ui.news;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import kg.geektech.newsapp39.R;
 import kg.geektech.newsapp39.databinding.FragmentNewsBinding;
 import kg.geektech.newsapp39.models.News;
 
@@ -28,7 +29,7 @@ public class NewsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.btnSave.setOnClickListener(view1 -> save());
+        initSetText();
         /*
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +37,10 @@ public class NewsFragment extends Fragment {
                 save();
             }
         });*/
+    }
+
+    private void initSetText() {
+        binding.btnSave.setOnClickListener(view1 -> save());
     }
 
     private void save() {
