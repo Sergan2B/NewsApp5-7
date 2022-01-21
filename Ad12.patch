@@ -1,0 +1,307 @@
+Index: app/src/main/res/layout/item_news.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/item_news.xml b/app/src/main/res/layout/item_news.xml
+new file mode 100644
+--- /dev/null	(date 1642709195162)
++++ b/app/src/main/res/layout/item_news.xml	(date 1642709195162)
+@@ -0,0 +1,27 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:layout_weight="2"
++    android:layout_margin="8dp"
++    android:orientation="horizontal">
++
++    <TextView
++        android:id="@+id/title_tv"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_weight="1"
++        android:textSize="18sp"
++        tools:text="EXAMPLE" />
++
++    <TextView
++        android:id="@+id/data_tv"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_weight="1"
++        android:textSize="18sp"
++        android:textAlignment="textEnd"
++        tools:text="12.12.2012" />
++
++</LinearLayout>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 91ea4a9c18d67c111ebed67a6ae3802550a1c9a5)
++++ b/.idea/misc.xml	(date 1642709515874)
+@@ -4,8 +4,9 @@
+     <option name="filePathToZoomLevelMap">
+       <map>
+         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp20/app/src/main/res/layout/activity_main.xml" value="0.21927083333333333" />
+-        <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp20/app/src/main/res/layout/fragment_home.xml" value="0.21927083333333333" />
++        <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp20/app/src/main/res/layout/fragment_home.xml" value="0.4" />
+         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp20/app/src/main/res/layout/fragment_news.xml" value="0.21927083333333333" />
++        <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp20/app/src/main/res/layout/item_news.xml" value="0.21927083333333333" />
+         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp20/app/src/main/res/layout/profile_fragment.xml" value="0.2" />
+         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp20/app/src/main/res/menu/bottom_nav_menu.xml" value="0.4" />
+       </map>
+Index: app/src/main/res/layout/fragment_home.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_home.xml b/app/src/main/res/layout/fragment_home.xml
+--- a/app/src/main/res/layout/fragment_home.xml	(revision 91ea4a9c18d67c111ebed67a6ae3802550a1c9a5)
++++ b/app/src/main/res/layout/fragment_home.xml	(date 1642710416615)
+@@ -14,4 +14,16 @@
+         android:background="@mipmap/ic_launcher_round"
+         app:layout_constraintEnd_toEndOf="parent" />
+ 
++    <androidx.recyclerview.widget.RecyclerView
++        android:id="@+id/news_rv"
++        android:layout_width="0dp"
++        android:layout_height="0dp"
++        android:clickable="true"
++        android:longClickable="true"
++        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent" />
++
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/kg/geektech/newsapp39/ui/home/HomeFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/kg/geektech/newsapp39/ui/home/HomeFragment.java b/app/src/main/java/kg/geektech/newsapp39/ui/home/HomeFragment.java
+--- a/app/src/main/java/kg/geektech/newsapp39/ui/home/HomeFragment.java	(revision 91ea4a9c18d67c111ebed67a6ae3802550a1c9a5)
++++ b/app/src/main/java/kg/geektech/newsapp39/ui/home/HomeFragment.java	(date 1642724071970)
+@@ -1,7 +1,6 @@
+ package kg.geektech.newsapp39.ui.home;
+ 
+ import android.os.Bundle;
+-import android.util.Log;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+@@ -10,17 +9,23 @@
+ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ import androidx.fragment.app.Fragment;
+-import androidx.fragment.app.FragmentResultListener;
+ import androidx.navigation.NavController;
+ import androidx.navigation.Navigation;
+ 
++import java.util.ArrayList;
++
++import kg.geektech.newsapp39.OnClickItem;
+ import kg.geektech.newsapp39.R;
+ import kg.geektech.newsapp39.databinding.FragmentHomeBinding;
+-import kg.geektech.newsapp39.models.News;
++import kg.geektech.newsapp39.ui.news.News;
+ 
+-public class HomeFragment extends Fragment {
++public class HomeFragment extends Fragment implements OnClickItem {
+ 
+     private FragmentHomeBinding binding;
++    private NewsAdapter adapter;
++    private News news;
++    private ArrayList<News> list = new ArrayList<>();
++    int pos;
+ 
+     public View onCreateView(@NonNull LayoutInflater inflater,
+                              ViewGroup container, Bundle savedInstanceState) {
+@@ -38,22 +43,62 @@
+     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+         super.onViewCreated(view, savedInstanceState);
+         initOpenFragment();
++        initRv();
++        initResult();
++        //test();
++    }
++
++    /*private void test() {
++        NewsAdapter.OnStateClickListener stateClickListener = new NewsAdapter.OnStateClickListener() {
++            @Override
++            public void onStateClick(int position) {
++                Toast.makeText(getContext(), "Go", Toast.LENGTH_SHORT).show();
++            }
++        };
++        NewsAdapter adapter = new NewsAdapter(news, stateClickListener);
++        binding.newsRv.setAdapter(adapter);
++    }*/
++/*
++    private void deleteNews() {
++        binding.newsRv.setOnLongClickListener(view -> {Toast.makeText(requireContext(), "news.getTitle()", Toast.LENGTH_SHORT).show();
++            return true;
++        });
++    }*/
++
++    @Override
++    public void onClick(int pos) {
++        News news = adapter.getItem(pos);
++        if (news != null) {
++            Toast.makeText(requireContext(), "news.getTitle() " + pos, Toast.LENGTH_SHORT).show();
++            Bundle bundle = new Bundle();
++            bundle.putSerializable("Afrika", pos);
++            list.remove(news);
++        }
++    }
++
++
++    private void initResult() {
++        getParentFragmentManager().setFragmentResultListener("rk_keys", getViewLifecycleOwner(), (requestKey, result) -> {
++            news = (News) result.getSerializable("news");
++            list.add(news); //Вот это одна строка решила все.
++            adapter.setNewsArrayList(list); //Тут вместо news от News, поставил list от ArrayList<News>.
++            binding.newsRv.setAdapter(adapter);
++        });
+     }
+ 
+     private void initOpenFragment() {
+         binding.fab.setOnClickListener(view1 -> openFragment());
+-        getParentFragmentManager().setFragmentResultListener("rk_keys", getViewLifecycleOwner(), new FragmentResultListener() {
+-            @Override
+-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+-                News news = (News) result.getSerializable("news");
+-                Log.e("TAG", "Успешно" + news.getTitle());
+-                Toast.makeText(requireContext(), news.getTitle(), Toast.LENGTH_SHORT).show();
+-            }
+-        });
++    }
++
++    private void initRv() {
++        adapter = new NewsAdapter(list, this);
++        binding.newsRv.setAdapter(adapter);
+     }
+ 
+     private void openFragment() {
+         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
+         navController.navigate(R.id.newsFragment);
+     }
++
++
+ }
+\ No newline at end of file
+Index: app/src/main/java/kg/geektech/newsapp39/models/News.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/kg/geektech/newsapp39/models/News.java b/app/src/main/java/kg/geektech/newsapp39/ui/news/News.java
+rename from app/src/main/java/kg/geektech/newsapp39/models/News.java
+rename to app/src/main/java/kg/geektech/newsapp39/ui/news/News.java
+--- a/app/src/main/java/kg/geektech/newsapp39/models/News.java	(revision 91ea4a9c18d67c111ebed67a6ae3802550a1c9a5)
++++ b/app/src/main/java/kg/geektech/newsapp39/ui/news/News.java	(date 1642719979642)
+@@ -1,12 +1,18 @@
+-package kg.geektech.newsapp39.models;
++package kg.geektech.newsapp39.ui.news;
+ 
+ import java.io.Serializable;
++import java.util.ArrayList;
+ 
+-public class News implements Serializable {
++public class News extends ArrayList<News> implements Serializable {
++    private String title, createdAt;
+ 
+-    private String title;
+-    private long createdAt;
++    public String getCreatedAt() {
++        return createdAt;
++    }
+ 
++    public void setCreatedAt(String createdAt) {
++        this.createdAt = createdAt;
++    }
+ 
+     public String getTitle() {
+         return title;
+@@ -16,15 +22,7 @@
+         this.title = title;
+     }
+ 
+-    public long getCreatedAt() {
+-        return createdAt;
+-    }
+-
+-    public void setCreatedAt(long createdAt) {
+-        this.createdAt = createdAt;
+-    }
+-
+-    public News(String title, long createdAt) {
++    public News(String title, String createdAt) {
+         this.title = title;
+         this.createdAt = createdAt;
+     }
+Index: app/src/main/java/kg/geektech/newsapp39/ui/news/NewsFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/kg/geektech/newsapp39/ui/news/NewsFragment.java b/app/src/main/java/kg/geektech/newsapp39/ui/news/NewsFragment.java
+--- a/app/src/main/java/kg/geektech/newsapp39/ui/news/NewsFragment.java	(revision 91ea4a9c18d67c111ebed67a6ae3802550a1c9a5)
++++ b/app/src/main/java/kg/geektech/newsapp39/ui/news/NewsFragment.java	(date 1642709195177)
+@@ -11,9 +11,13 @@
+ import androidx.navigation.NavController;
+ import androidx.navigation.Navigation;
+ 
++import java.text.DateFormat;
++import java.text.SimpleDateFormat;
++import java.util.Calendar;
++import java.util.Date;
++
+ import kg.geektech.newsapp39.R;
+ import kg.geektech.newsapp39.databinding.FragmentNewsBinding;
+-import kg.geektech.newsapp39.models.News;
+ 
+ public class NewsFragment extends Fragment {
+ 
+@@ -30,13 +34,6 @@
+     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+         super.onViewCreated(view, savedInstanceState);
+         initSetText();
+-        /*
+-        binding.btnSave.setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View view) {
+-                save();
+-            }
+-        });*/
+     }
+ 
+     private void initSetText() {
+@@ -44,8 +41,20 @@
+     }
+ 
+     private void save() {
++        long millis = System.currentTimeMillis();
++       /* Calendar calendar = Calendar.getInstance();
++        calendar.setTimeInMillis(millis);
++        long mYear, mMonth, mDay, mHour, mMinute, timeDate;
++        mYear = calendar.get(Calendar.YEAR);
++        mMonth = calendar.get(Calendar.MONTH);
++        mDay = calendar.get(Calendar.DAY_OF_MONTH);
++        mHour = calendar.get(Calendar.HOUR_OF_DAY);
++        mMinute = calendar.get(Calendar.MINUTE);
++        timeDate = calendar.getTimeInMillis();
++        DateFormat.getDateTimeInstance().format(new Date(millis));*/
++
+         String title = binding.editText.getText().toString();
+-        News news = new News(title, System.currentTimeMillis());
++        News news = new News(title, DateFormat.getDateTimeInstance().format(new Date(millis)) + "   ");
+         Bundle bundle = new Bundle();
+         bundle.putSerializable("news", news);
+         getParentFragmentManager().setFragmentResult("rk_keys", bundle);
