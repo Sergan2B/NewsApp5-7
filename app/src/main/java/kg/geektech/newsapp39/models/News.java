@@ -1,4 +1,4 @@
-package kg.geektech.newsapp39.ui.news;
+package kg.geektech.newsapp39.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;

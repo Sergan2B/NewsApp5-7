@@ -36,6 +36,12 @@ public class ProfileFragment extends Fragment {
         ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(), imageUri -> binding.avatarProfile.setImageURI(imageUri));
         binding.avatarProfile.setOnClickListener(view1 -> mGetContent.launch("image/*"));
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 }
 
    /* private void takePhoto() {

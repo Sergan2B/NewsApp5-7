@@ -12,12 +12,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import kg.geektech.newsapp39.R;
 import kg.geektech.newsapp39.databinding.FragmentNewsBinding;
+import kg.geektech.newsapp39.models.News;
 
 public class NewsFragment extends Fragment {
 

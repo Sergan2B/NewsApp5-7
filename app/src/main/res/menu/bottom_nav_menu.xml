@@ -17,7 +17,7 @@
         android:title="@string/title_notifications" />
 
     <item
-        android:id="@+id/profileFragment"
+        android:id="@+id/navigation_profile"
         android:icon="@mipmap/ic_launcher_round"
         android:title="@string/profile" />
 </menu>

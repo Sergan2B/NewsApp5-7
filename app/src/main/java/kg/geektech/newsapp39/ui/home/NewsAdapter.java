@@ -2,7 +2,6 @@ package kg.geektech.newsapp39.ui.home;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,20 +9,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import kg.geektech.newsapp39.OnClickItem;
 import kg.geektech.newsapp39.databinding.ItemNewsBinding;
-import kg.geektech.newsapp39.ui.news.News;
+import kg.geektech.newsapp39.models.News;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private ArrayList<News> newsArrayList;
     private ItemNewsBinding binding;
-    private OnClickItem onClickItem;
+    private OnLongClickItem onLongClickItem;
 
 
-    public NewsAdapter(ArrayList<News> newsArrayList, OnClickItem onClickItem) {
+    public NewsAdapter(ArrayList<News> newsArrayList, OnLongClickItem onLongClickItem) {
         this.newsArrayList = newsArrayList;
-        this.onClickItem = onClickItem;
+        this.onLongClickItem = onLongClickItem;
         notifyDataSetChanged();
     }
 
@@ -42,9 +40,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull NewsAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.onBind(newsArrayList.get(position));
-        holder.itemView.setOnLongClickListener(view -> {onClickItem.onClick(position);
-            return true;
-        });
     }
 
     @Override
@@ -65,6 +60,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public void onBind(News news) {
             binding.titleTv.setText(news.getTitle());
             binding.dataTv.setText(String.valueOf(news.getCreatedAt()));
+            initListenerN(news);
         }
+
+        public void initListenerN(News news) {
+            binding.getRoot().setOnLongClickListener(view -> {onLongClickItem.onLongClick(getAdapterPosition());
+                return true;
+            });
+            binding.getRoot().setOnClickListener(v -> onLongClickItem.onClick(news));
+        }
+    }
+
+    public interface OnLongClickItem {
+        void onClick(News news);
+        void onLongClick(int pos);
     }
 }

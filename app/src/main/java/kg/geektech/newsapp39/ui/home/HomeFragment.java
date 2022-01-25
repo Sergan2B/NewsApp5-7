@@ -1,5 +1,6 @@
 package kg.geektech.newsapp39.ui.home;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +15,16 @@ import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
 
-import kg.geektech.newsapp39.OnClickItem;
 import kg.geektech.newsapp39.R;
 import kg.geektech.newsapp39.databinding.FragmentHomeBinding;
-import kg.geektech.newsapp39.ui.news.News;
+import kg.geektech.newsapp39.models.News;
 
-public class HomeFragment extends Fragment implements OnClickItem {
+public class HomeFragment extends Fragment implements NewsAdapter.OnLongClickItem {
 
     private FragmentHomeBinding binding;
     private NewsAdapter adapter;
     private News news;
-    private ArrayList<News> list = new ArrayList<>();
-    int pos;
+    private final ArrayList<News> list = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -66,16 +65,21 @@ public class HomeFragment extends Fragment implements OnClickItem {
     }*/
 
     @Override
-    public void onClick(int pos) {
+    public void onClick(News news) {
+        Toast.makeText(requireContext(), news.getTitle(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLongClick(int pos) {
         News news = adapter.getItem(pos);
         if (news != null) {
             Toast.makeText(requireContext(), "news.getTitle() " + pos, Toast.LENGTH_SHORT).show();
             Bundle bundle = new Bundle();
             bundle.putSerializable("Afrika", pos);
             list.remove(news);
+            binding.newsRv.setAdapter(adapter);
         }
     }
-
 
     private void initResult() {
         getParentFragmentManager().setFragmentResultListener("rk_keys", getViewLifecycleOwner(), (requestKey, result) -> {
