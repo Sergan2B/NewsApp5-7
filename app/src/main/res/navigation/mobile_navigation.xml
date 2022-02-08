@@ -37,4 +37,9 @@
         android:name="kg.geektech.newsapp39.ui.board.BoardFragment"
         android:label="fragment_blank"
         tools:layout="@layout/fragment_board" />
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="kg.geektech.newsapp39.ui.login.loginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>

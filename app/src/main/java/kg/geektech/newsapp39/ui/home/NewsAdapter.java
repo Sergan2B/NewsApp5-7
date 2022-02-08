@@ -8,26 +8,38 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import kg.geektech.newsapp39.databinding.ItemNewsBinding;
 import kg.geektech.newsapp39.models.News;
-
+@SuppressLint("NotifyDataSetChanged")
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private ArrayList<News> newsArrayList;
+    private List<News> newsArrayList = new ArrayList<>();
     private ItemNewsBinding binding;
     private OnLongClickItem onLongClickItem;
 
+    public void setNewsArrayList(News news) {
+        newsArrayList.add(news);
+        notifyItemInserted(newsArrayList.size());
+    }
 
-    public NewsAdapter(ArrayList<News> newsArrayList, OnLongClickItem onLongClickItem) {
+    public void setNewsArrayList(List<News> newsArrayList) {
         this.newsArrayList = newsArrayList;
-        this.onLongClickItem = onLongClickItem;
         notifyDataSetChanged();
     }
 
-    public void setNewsArrayList(ArrayList<News> newsArrayList) {
-        this.newsArrayList = newsArrayList;
-        notifyDataSetChanged();
+    public void setOnLongClickItem(OnLongClickItem onLongClickItem) {
+        this.onLongClickItem = onLongClickItem;
+    }
+
+    public void remove(int pos) {
+        newsArrayList.remove(pos);
+        notifyItemRemoved(pos);
+    }
+    public void removeAll(List<News> news) {
+        news.removeAll(news);
+        notifyItemRemoved(0);
     }
 
     @NonNull
@@ -51,6 +63,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return newsArrayList.get(pos);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void addItems(List<News> list) {
+        newsArrayList.addAll(list);
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         public ViewHolder(@NonNull ItemNewsBinding binding) {
@@ -60,19 +78,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         public void onBind(News news) {
             binding.titleTv.setText(news.getTitle());
             binding.dataTv.setText(String.valueOf(news.getCreatedAt()));
-            initListenerN(news);
-        }
 
-        public void initListenerN(News news) {
-            binding.getRoot().setOnLongClickListener(view -> {onLongClickItem.onLongClick(getAdapterPosition());
+            binding.getRoot().setOnLongClickListener(view -> {
+                onLongClickItem.onLongClick(getAdapterPosition());
                 return true;
             });
-            binding.getRoot().setOnClickListener(v -> onLongClickItem.onClick(news));
+            binding.getRoot().setOnClickListener(view -> {
+                onLongClickItem.onClick(getAdapterPosition());
+            });
         }
     }
 
     public interface OnLongClickItem {
-        void onClick(News news);
+        void onClick(int pos);
+
         void onLongClick(int pos);
     }
 }

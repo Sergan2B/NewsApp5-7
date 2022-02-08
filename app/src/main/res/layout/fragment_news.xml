@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.news.NewsFragment"
     android:layout_margin="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.news.NewsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <EditText
-        android:id="@+id/edit_text"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textCapSentences" />
+        android:hint="Введите текст"
+        app:counterEnabled="true"
+        app:counterMaxLength="32"
+        app:endIconMode="password_toggle">
 
-    <Button
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save" />
+        android:layout_marginTop="16dp"
+        style="@style/ButtonStyle"
+        android:text="Save"/>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bd_edit" />
 </LinearLayout>

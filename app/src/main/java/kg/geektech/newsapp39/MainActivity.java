@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -36,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(binding.navView, navController);
-
         openBoardFragment(navController);
         logicBoard(navController);
+
        /* ArrayList<Integer> integerArrayList = new ArrayList<>();
         integerArrayList.add(R.id.navigation_home);
         integerArrayList.add(R.id.navigation_dashboard);
@@ -51,20 +52,38 @@ public class MainActivity extends AppCompatActivity {
                 binding.navView.setVisibility(View.GONE);
             }
         }));*/
-
     }
 
     private void logicBoard(NavController navController) {
         ArrayList<Integer> integerArrayList = new ArrayList<>();
         integerArrayList.add(R.id.navigation_board);
         integerArrayList.add(R.id.newsFragment);
+        Prefs prefs = new Prefs(this);
+        if (!prefs.isBoardShown()) {
+            navController.navigate(R.id.navigation_board);
+            loginLoginGoogle(navController);
+            prefs.savedBoardState();
+        } else {
+            navController.navigate(R.id.navigation_home);
+            loginLoginGoogle(navController);
+        }
         navController.addOnDestinationChangedListener(((controller, destination, arguments) -> {
             if (integerArrayList.contains(destination.getId())) {
                 binding.navView.setVisibility(View.GONE);
             } else {
                 binding.navView.setVisibility(View.VISIBLE);
             }
+            if (destination.getId() == R.id.navigation_board) getSupportActionBar().hide();
+            else getSupportActionBar().show();
         }));
+    }
+
+    private void loginLoginGoogle(NavController navController) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            navController.navigate(R.id.navigation_home);
+        } else if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            navController.navigate(R.id.navigation_login);
+        }
     }
 
     private void openBoardFragment(NavController navController) {

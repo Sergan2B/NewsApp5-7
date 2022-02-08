@@ -1,10 +1,26 @@
 package kg.geektech.newsapp39.models;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class News extends ArrayList<News> implements Serializable {
+@Entity
+public class News implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String title, createdAt;
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getCreatedAt() {
         return createdAt;

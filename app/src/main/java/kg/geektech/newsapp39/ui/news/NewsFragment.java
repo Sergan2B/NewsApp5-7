@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import androidx.navigation.Navigation;
 import java.text.DateFormat;
 import java.util.Date;
 
+import kg.geektech.newsapp39.App;
 import kg.geektech.newsapp39.R;
 import kg.geektech.newsapp39.databinding.FragmentNewsBinding;
 import kg.geektech.newsapp39.models.News;
@@ -39,9 +41,7 @@ public class NewsFragment extends Fragment {
         binding.btnSave.setOnClickListener(view1 -> save());
     }
 
-    private void save() {
-        long millis = System.currentTimeMillis();
-       /* Calendar calendar = Calendar.getInstance();
+    private void save() {  /* Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(millis);
         long mYear, mMonth, mDay, mHour, mMinute, timeDate;
         mYear = calendar.get(Calendar.YEAR);
@@ -51,10 +51,15 @@ public class NewsFragment extends Fragment {
         mMinute = calendar.get(Calendar.MINUTE);
         timeDate = calendar.getTimeInMillis();
         DateFormat.getDateTimeInstance().format(new Date(millis));*/
-
-        String title = binding.editText.getText().toString();
-        News news = new News(title, DateFormat.getDateTimeInstance().format(new Date(millis)) + "   ");
+        long millis = System.currentTimeMillis();
         Bundle bundle = new Bundle();
+        String title = binding.editText.getText().toString().trim();
+        if (title.isEmpty()) { //Пустая строка
+            Toast.makeText(requireContext(), "Заполните поле", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        News news = new News(title, DateFormat.getDateTimeInstance().format(new Date(millis)) + "   ");
+        App.appDatabase.newsDao().insert(news); //Записывает данные в бд
         bundle.putSerializable("news", news);
         getParentFragmentManager().setFragmentResult("rk_keys", bundle);
         close();
@@ -63,11 +68,5 @@ public class NewsFragment extends Fragment {
     private void close() {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         navController.navigateUp();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }
