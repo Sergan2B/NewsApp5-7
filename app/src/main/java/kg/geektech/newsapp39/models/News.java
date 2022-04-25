@@ -13,6 +13,7 @@ public class News implements Serializable {
     private int id;
     private String title, createdAt;
 
+    public News(){}
 
     public int getId() {
         return id;

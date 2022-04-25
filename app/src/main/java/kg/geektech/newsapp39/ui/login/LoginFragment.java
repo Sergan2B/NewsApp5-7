@@ -30,7 +30,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import kg.geektech.newsapp39.Prefs;
 import kg.geektech.newsapp39.R;
 
-public class loginFragment extends Fragment {
+public class LoginFragment extends Fragment {
 
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
@@ -86,7 +86,7 @@ public class loginFragment extends Fragment {
                         Log.d("22", "signInWithCredential:success");
                         FirebaseUser user = mAuth.getCurrentUser();
                         close();
-                        updateUI(user);
+                        updateUI(user); //Никуда не перекидываем,а меняем данный фрагмент
                     } else if (task.isCanceled()) {
                         Toast.makeText(requireActivity(), "Вы отменили авторизацию", Toast.LENGTH_SHORT).show();
                         updateUI(null);
@@ -99,8 +99,6 @@ public class loginFragment extends Fragment {
     }
 
     private void close() {
-        Prefs prefs = new Prefs(requireContext());
-        prefs.savedBoardState();
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         navController.navigateUp();
     }

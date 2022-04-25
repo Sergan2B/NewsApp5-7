@@ -19,6 +19,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private ItemNewsBinding binding;
     private OnLongClickItem onLongClickItem;
 
+
     public void setNewsArrayList(News news) {
         newsArrayList.add(news);
         notifyItemInserted(newsArrayList.size());
@@ -37,16 +38,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         newsArrayList.remove(pos);
         notifyItemRemoved(pos);
     }
-    public void removeAll(List<News> news) {
-        news.removeAll(news);
-        notifyItemRemoved(0);
-    }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ViewHolder(binding);
+            binding = ItemNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new ViewHolder(binding);
     }
 
     @Override

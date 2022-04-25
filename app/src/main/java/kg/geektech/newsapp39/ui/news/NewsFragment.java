@@ -12,6 +12,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -41,28 +46,31 @@ public class NewsFragment extends Fragment {
         binding.btnSave.setOnClickListener(view1 -> save());
     }
 
-    private void save() {  /* Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(millis);
-        long mYear, mMonth, mDay, mHour, mMinute, timeDate;
-        mYear = calendar.get(Calendar.YEAR);
-        mMonth = calendar.get(Calendar.MONTH);
-        mDay = calendar.get(Calendar.DAY_OF_MONTH);
-        mHour = calendar.get(Calendar.HOUR_OF_DAY);
-        mMinute = calendar.get(Calendar.MINUTE);
-        timeDate = calendar.getTimeInMillis();
-        DateFormat.getDateTimeInstance().format(new Date(millis));*/
+    private void save() {
         long millis = System.currentTimeMillis();
         Bundle bundle = new Bundle();
         String title = binding.editText.getText().toString().trim();
+
         if (title.isEmpty()) { //Пустая строка
             Toast.makeText(requireContext(), "Заполните поле", Toast.LENGTH_SHORT).show();
             return;
         }
         News news = new News(title, DateFormat.getDateTimeInstance().format(new Date(millis)) + "   ");
         App.appDatabase.newsDao().insert(news); //Записывает данные в бд
+        addToFirestore(news);
         bundle.putSerializable("news", news);
         getParentFragmentManager().setFragmentResult("rk_keys", bundle);
-        close();
+    }
+
+    private void addToFirestore(News news) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("news").add(news).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show();
+                close();
+            }
+            else Toast.makeText(requireContext(), "Неуспешно", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void close() {

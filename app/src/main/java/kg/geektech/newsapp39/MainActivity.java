@@ -19,54 +19,29 @@ import kg.geektech.newsapp39.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    public static final int RESULT_GALLERY = 0;
-    public static final int REQUEST_IMAGE_SELECTOR = 0;
+    private NavController navController;
+    private final ArrayList<Integer> integerArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        initNavController();
+        openBoardFragment(navController);
+        logicBoard(navController);
+    }
+
+    private void initNavController() {
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        integerArrayList.add(R.id.navigation_board);
+        integerArrayList.add(R.id.newsFragment);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(binding.navView, navController);
-        openBoardFragment(navController);
-        logicBoard(navController);
-
-       /* ArrayList<Integer> integerArrayList = new ArrayList<>();
-        integerArrayList.add(R.id.navigation_home);
-        integerArrayList.add(R.id.navigation_dashboard);
-        integerArrayList.add(R.id.navigation_notifications);
-        integerArrayList.add(R.id.navigation_profile);
-        navController.addOnDestinationChangedListener(((controller, destination, arguments) -> {
-            if (integerArrayList.contains((destination.getId()))) {
-                binding.navView.setVisibility(View.VISIBLE);
-            } else {
-                binding.navView.setVisibility(View.GONE);
-            }
-        }));*/
-    }
-
-    private void logicBoard(NavController navController) {
-        ArrayList<Integer> integerArrayList = new ArrayList<>();
-        integerArrayList.add(R.id.navigation_board);
-        integerArrayList.add(R.id.newsFragment);
-        Prefs prefs = new Prefs(this);
-        if (!prefs.isBoardShown()) {
-            navController.navigate(R.id.navigation_board);
-            loginLoginGoogle(navController);
-            prefs.savedBoardState();
-        } else {
-            navController.navigate(R.id.navigation_home);
-            loginLoginGoogle(navController);
-        }
         navController.addOnDestinationChangedListener(((controller, destination, arguments) -> {
             if (integerArrayList.contains(destination.getId())) {
                 binding.navView.setVisibility(View.GONE);
@@ -78,10 +53,20 @@ public class MainActivity extends AppCompatActivity {
         }));
     }
 
-    private void loginLoginGoogle(NavController navController) {
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+    private void logicBoard(NavController navController) {
+        Prefs prefs = new Prefs(this);
+        if (!prefs.isBoardShown()) {
+            navController.navigate(R.id.navigation_board);
+            loginLoginGoogle(navController);
+            prefs.savedBoardState();
+        } else {
             navController.navigate(R.id.navigation_home);
-        } else if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            loginLoginGoogle(navController);
+        }
+    }
+
+    private void loginLoginGoogle(NavController navController) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             navController.navigate(R.id.navigation_login);
         }
     }

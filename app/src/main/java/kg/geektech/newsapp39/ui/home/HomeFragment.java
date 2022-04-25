@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import java.util.Collections;
 import java.util.List;
 
 import kg.geektech.newsapp39.App;
@@ -67,7 +68,6 @@ public class HomeFragment extends Fragment {
                         bundle.putSerializable("Afrika", pos);
                         adapter.remove(pos);
                         binding.newsRv.setAdapter(adapter);
-                        App.getAppDatabase().newsDao().delete(news);
                     }
                 });
                 alert.setNegativeButton("Отмена", (dialog, whichButton) -> dialog.cancel());
@@ -75,23 +75,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-   /* /*private void test() {
-        NewsAdapter.OnStateClickListener stateClickListener = new NewsAdapter.OnStateClickListener() {
-            @Override
-            public void onStateClick(int position) {
-                Toast.makeText(getContext(), "Go", Toast.LENGTH_SHORT).show();
-            }
-        };
-        NewsAdapter adapter = new NewsAdapter(news, stateClickListener);
-        binding.newsRv.setAdapter(adapter);
-    }
-/*
-    private void deleteNews() {
-        binding.newsRv.setOnLongClickListener(view -> {Toast.makeText(requireContext(), "news.getTitle()", Toast.LENGTH_SHORT).show();
-            return true;
-        });
-    }*/
 
     private void initResult() {
         getParentFragmentManager().setFragmentResultListener("rk_keys", getViewLifecycleOwner(), (requestKey, result) -> {
@@ -121,18 +104,19 @@ public class HomeFragment extends Fragment {
         inflater.inflate(R.menu.home, menu);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_exit) {
             requireActivity().finish();
         }
+        if (item.getItemId() == R.id.action_clear) {
+       //     adapter.removeAll(Collections.singletonList(news));
+        }
         if (item.getItemId() == R.id.action_sort) {
             adapter.setNewsArrayList(App.getAppDatabase().newsDao().sort());
             binding.newsRv.setAdapter(adapter);
         }
-       /* if (item.getItemId() == R.id.action_clear) {
-        App.getAppDatabase().newsDao().delete(adapter.removeAll();
-        }*/
         return super.onOptionsItemSelected(item);
     }
 }
