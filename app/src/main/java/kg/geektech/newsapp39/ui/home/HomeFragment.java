@@ -17,9 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import java.util.Collections;
-import java.util.List;
-
 import kg.geektech.newsapp39.App;
 import kg.geektech.newsapp39.R;
 import kg.geektech.newsapp39.databinding.FragmentHomeBinding;
@@ -58,9 +55,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onLongClick(int pos) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                alert.setTitle("Удалить новость?");
-                alert.setMessage("Вы действительно собираетесь удалить новость? После удаления, новость нельзя будет восстановить.");
-                alert.setPositiveButton("Удалить", (dialog, whichButton) -> {
+                alert.setTitle(R.string.delete_news);
+                alert.setMessage(R.string.really_delete_news);
+                alert.setPositiveButton(R.string.delete, (dialog, whichButton) -> {
                     news = adapter.getItem(pos);
                     if (news != null) {
                         Toast.makeText(requireContext(), "news.getTitle() " + pos, Toast.LENGTH_SHORT).show();
@@ -70,7 +67,7 @@ public class HomeFragment extends Fragment {
                         binding.newsRv.setAdapter(adapter);
                     }
                 });
-                alert.setNegativeButton("Отмена", (dialog, whichButton) -> dialog.cancel());
+                alert.setNegativeButton(R.string.cancel, (dialog, whichButton) -> dialog.cancel());
                 alert.show();
             }
         });
@@ -110,9 +107,7 @@ public class HomeFragment extends Fragment {
         if (item.getItemId() == R.id.action_exit) {
             requireActivity().finish();
         }
-        if (item.getItemId() == R.id.action_clear) {
-       //     adapter.removeAll(Collections.singletonList(news));
-        }
+        item.getItemId();
         if (item.getItemId() == R.id.action_sort) {
             adapter.setNewsArrayList(App.getAppDatabase().newsDao().sort());
             binding.newsRv.setAdapter(adapter);

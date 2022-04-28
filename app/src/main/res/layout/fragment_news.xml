@@ -8,11 +8,10 @@
     android:orientation="vertical"
     tools:context=".ui.news.NewsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите текст"
+        android:hint="@string/enter_text"
         app:counterEnabled="true"
         app:counterMaxLength="32"
         app:endIconMode="password_toggle">
@@ -31,9 +30,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         style="@style/ButtonStyle"
-        android:text="Save"/>
+        android:text="@string/save"/>
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bd_edit" />

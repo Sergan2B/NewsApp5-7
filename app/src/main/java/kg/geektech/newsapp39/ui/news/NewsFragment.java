@@ -12,9 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
@@ -30,7 +27,7 @@ public class NewsFragment extends Fragment {
     private FragmentNewsBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentNewsBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -49,7 +46,7 @@ public class NewsFragment extends Fragment {
     private void save() {
         long millis = System.currentTimeMillis();
         Bundle bundle = new Bundle();
-        String title = binding.editText.getText().toString().trim();
+        String title = String.valueOf(binding.editText.getText());
 
         if (title.isEmpty()) { //Пустая строка
             Toast.makeText(requireContext(), "Заполните поле", Toast.LENGTH_SHORT).show();
@@ -68,8 +65,7 @@ public class NewsFragment extends Fragment {
             if (task.isSuccessful()) {
                 Toast.makeText(requireContext(), "Успешно", Toast.LENGTH_SHORT).show();
                 close();
-            }
-            else Toast.makeText(requireContext(), "Неуспешно", Toast.LENGTH_SHORT).show();
+            } else Toast.makeText(requireContext(), "Неуспешно", Toast.LENGTH_SHORT).show();
         });
     }
 

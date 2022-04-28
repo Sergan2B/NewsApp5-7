@@ -36,7 +36,7 @@
         android:layout_marginTop="648dp"
         style="@style/ButtonStyle"
         android:layout_marginEnd="16dp"
-        android:text="SKIP"
+        android:text="@string/skip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

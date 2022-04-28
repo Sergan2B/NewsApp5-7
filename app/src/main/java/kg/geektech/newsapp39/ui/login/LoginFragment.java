@@ -27,7 +27,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import kg.geektech.newsapp39.Prefs;
 import kg.geektech.newsapp39.R;
 
 public class LoginFragment extends Fragment {
@@ -107,12 +106,13 @@ public class LoginFragment extends Fragment {
     private void initGoogle() {
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.web_client))
                 .requestEmail()
                 .build();
         mAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
     }
 
-    private void updateUI(FirebaseUser currentUser) {}
+    private void updateUI(FirebaseUser currentUser) {
+    }
 }

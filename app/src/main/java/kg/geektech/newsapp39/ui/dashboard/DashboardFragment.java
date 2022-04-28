@@ -9,9 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
@@ -20,8 +18,6 @@ import kg.geektech.newsapp39.models.News;
 import kg.geektech.newsapp39.ui.home.NewsAdapter;
 
 public class DashboardFragment extends Fragment {
-
-    private DashboardViewModel dashboardViewModel;
     private FragmentDashboardBinding binding;
     private NewsAdapter adapter;
 

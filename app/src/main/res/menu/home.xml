@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_sort"
-        android:title="Сортировка" />
+        android:title="@string/sort" />
     <item
         android:id="@+id/action_clear"
-        android:title="Очистить" />
+        android:title="@string/clear" />
     <item
         android:id="@+id/action_exit"
-        android:title="Выйти" />
+        android:title="@string/exit" />
 </menu>

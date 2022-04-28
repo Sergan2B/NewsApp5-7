@@ -1,5 +1,6 @@
 package kg.geektech.newsapp39.ui.board;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import kg.geektech.newsapp39.R;
 import kg.geektech.newsapp39.databinding.ItemBoardVpBinding;
 
+@SuppressLint("NotifyDataSetChanged")
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
 
     private ItemBoardVpBinding binding;
-    private Integer[] listImage = new Integer[]{R.raw.kaguya, R.raw.kakashi, R.raw.russia};
-    private String listTitle[] = {"Title1", "Title2", "Title3"};
-    private String listSubTitle[] = {"SubTitle1", "SubTitle2", "SubTitle3"};
-    private OnClickItem onClickItem;
+    private final Integer[] listImage = new Integer[]{R.raw.kaguya, R.raw.kakashi, R.raw.russia};
+    private final String[] listTitle = {"Title1", "Title2", "Title3"};
+    private final String[] listSubTitle = {"SubTitle1", "SubTitle2", "SubTitle3"};
+    private final OnClickItem onClickItem;
 
     public BoardAdapter(OnClickItem onClickItem) {
         this.onClickItem = onClickItem;
@@ -29,7 +31,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         binding = ItemBoardVpBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ViewHolder(binding);
+        return new ViewHolder();
     }
 
     @Override
@@ -46,7 +48,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(@NonNull ItemBoardVpBinding itemView) {
+        public ViewHolder() {
             super(binding.getRoot());
         }
 
@@ -54,7 +56,8 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
             binding.boardIv.setAnimation(listImage[pos]);
             binding.titleTv.setText(listTitle[pos]);
             binding.subTitleTv.setText(listSubTitle[pos]);
-            new Handler().postDelayed(() -> {}, 5000);
+            new Handler().postDelayed(() -> {
+            }, 5000);
         }
     }
 

@@ -7,4 +7,15 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="profile">Profile</string>
     <string name="web_client">1069198864998-c71dtr9t1eh3552fdfbsnkmqofi01htd.apps.googleusercontent.com</string>
+    <string name="delete_news">Удалить новость?</string>
+    <string name="really_delete_news">Вы действительно собираетесь удалить новость? После удаления, новость нельзя будет восстановить.</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="skip">SKIP</string>
+    <string name="sign_in_google">Вход через Google</string>
+    <string name="enter_text">Введите текст</string>
+    <string name="save">Save</string>
+    <string name="sort">Сортировка</string>
+    <string name="clear">Очистить</string>
+    <string name="exit">Выйти</string>
 </resources>

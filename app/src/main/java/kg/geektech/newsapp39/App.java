@@ -7,8 +7,6 @@ import androidx.room.Room;
 import kg.geektech.newsapp39.room.AppDatabase;
 
 public class App extends Application {
-
-
     public static AppDatabase appDatabase;
 
     @Override
@@ -23,8 +21,4 @@ public class App extends Application {
     public static AppDatabase getAppDatabase() {
         return appDatabase;
     }
-//
-//    public static App getInstance() {
-//        return instance;
-//    }
 }

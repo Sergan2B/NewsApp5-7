@@ -12,6 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/buttonGoogle"
-        android:text="Вход через Google"
+        android:text="@string/sign_in_google"
         />
 </FrameLayout>

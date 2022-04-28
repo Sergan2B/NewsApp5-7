@@ -26,7 +26,7 @@ public class BoardFragment extends Fragment implements BoardAdapter.OnClickItem 
     private final String[] tabText = {"", "", ""};
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentBoardBinding.inflate(inflater, container, false);
         return binding.getRoot();

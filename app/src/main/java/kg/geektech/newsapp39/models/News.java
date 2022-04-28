@@ -4,7 +4,6 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 @Entity
 public class News implements Serializable {
@@ -13,7 +12,8 @@ public class News implements Serializable {
     private int id;
     private String title, createdAt;
 
-    public News(){}
+    public News() {
+    }
 
     public int getId() {
         return id;
